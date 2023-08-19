@@ -101,6 +101,6 @@ addEventListener("keydown", (e)=>{
         createBall(0, 0, (Math.random() * 50), ((Math.random()-0.5) * 50), ((Math.random()-0.5) * 50))
     }
     if (e.key == "t") {
-        console.log(ball)
+        console.table(ball)
     }
 })
