@@ -1,0 +1,18 @@
+[
+    
+    [
+        {
+            "_projectBoxHeader": "Projects",
+            "_InsertPosition": "afterBegin"
+        },
+        [
+            {
+                "_projectHeader": "verlet",
+                "_projectContentImageLink": "./projectsImages/verlet.png",
+                "_projectContentImageLinkAlt": "stio's pfp",
+                "_link": "./verlet",
+                "_projectType": "A"
+            }
+        ]
+    ]
+]
