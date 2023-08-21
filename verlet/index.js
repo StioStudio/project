@@ -15,13 +15,14 @@ function dot(x, y, size, color, id) {
     rem.style.borderRadius = "50%"
     content.append(rem)
 }
-function createBall(x, y, size, xVel, yVel) {
+function createBall(x, y, size, xVel, yVel, color) {
     ball.push({
         x: x,
         y: y,
         xOld: x - xVel,
         yOld: y - yVel,
-        size: size
+        size: size,
+        color: color
     })
 }
 function eraseAll() {
@@ -30,6 +31,10 @@ function eraseAll() {
 function distance(x1, y1, x2, y2) {
     return Math.sqrt(((x1-x2)**2)+((y1-y2)**2))
 }
+let mouseDown = false
+let mouseY = 0
+let mouseX = 0
+
 let ball = []
 let subSteps = 20
 let x, y, aCon, bCon, maxDis, dis = 0
@@ -38,7 +43,7 @@ let xGrav = 0
 let yGrav = -1
 
 function update(){
-    for (aCon = 0; aCon < ball.length; aCon++) {
+    for (aCon = 1; aCon < ball.length; aCon++) {
         x = ball[aCon].x
         y = ball[aCon].y
         
@@ -48,8 +53,9 @@ function update(){
         ball[aCon].xOld = x
         ball[aCon].yOld = y
     }
-    for (let i = 0; i < subSteps; i++) {
-        for (aCon = 0; aCon < ball.length; aCon++) {
+    for (let i = 1; i < subSteps; i++) {
+        mouse()
+        for (aCon = 1; aCon < ball.length; aCon++) {
             maxDis = 300-ball[aCon].size/2
             let dis = distance(ball[aCon].x, ball[aCon].y, 0, 0)
             if (dis > maxDis) {
@@ -78,8 +84,27 @@ function update(){
 }
 function render() {
     dot(0, 0, 600, "#ffffff", "container")
-    for (aCon = 0; aCon < ball.length; aCon++) {
-        dot(ball[aCon].x, ball[aCon].y, ball[aCon].size, "#ff0000", aCon)
+    if(mouseDown) {
+        dot(ball[0].x, ball[0].y, ball[0].size, "#999999", 0)
+    }
+
+    for (aCon = 1; aCon < ball.length; aCon++) {
+        dot(ball[aCon].x, ball[aCon].y, ball[aCon].size, ball[aCon].color, aCon)
+    }
+}
+createBall(0, 0, 100, 1, 0)
+function mouse(){
+    if(mouseDown) {
+        ball[0].x = mouseX-innerWidth/2
+        // ball[0].xOld = mouseX-innerWidth/2
+        ball[0].y = mouseY-innerHeight/2
+        // ball[0].yOld = mouseY-innerHeight/2
+    }
+    else {
+        ball[0].x = -1000
+        ball[0].xOld = -1000
+        ball[0].y = 0
+        ball[0].yOld = 0
     }
 }
 
@@ -96,9 +121,20 @@ function loop(e) {
 
 loop(0)
 
+addEventListener("pointerdown", (e) => {
+    mouseDown = true
+})
+addEventListener("pointerup", (e) => {
+    mouseDown = false
+})
+addEventListener("pointermove", (e) => {
+    mouseX = e.clientX
+    mouseY = e.clientY
+})
 addEventListener("keydown", (e)=>{
     if (e.key == " ") {
-        createBall(0, 0, (Math.random() * 50), ((Math.random()-0.5) * 50), ((Math.random()-0.5) * 50))
+        createBall(0, 0, (Math.random() * 40 + 10), ((Math.random()-0.5) * 50), ((Math.random()-0.5) * 50), `rgb(${Math.random() * 150 + 75}, ${Math.random() * 200 + 75}, ${Math.random() * 200 + 75})`)
+        // createBall(0, 0, 20, 1, 0, `rgb(${Math.random() * 150 + 75}, ${Math.random() * 200 + 75}, ${Math.random() * 200 + 75})`)
     }
     if (e.key == "t") {
         console.table(ball)
