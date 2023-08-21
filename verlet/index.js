@@ -54,7 +54,6 @@ function update(){
         ball[aCon].yOld = y
     }
     for (let i = 1; i < subSteps; i++) {
-        mouse()
         for (aCon = 1; aCon < ball.length; aCon++) {
             maxDis = 300-ball[aCon].size/2
             let dis = distance(ball[aCon].x, ball[aCon].y, 0, 0)
@@ -71,11 +70,15 @@ function update(){
                     if (dis < maxDis) {
                         x = ball[aCon].x - ball[bCon].x
                         y = ball[aCon].y - ball[bCon].y
-
-                        ball[aCon].x = (ball[aCon].x) + ( (x / dis) * (0.5 * (maxDis-dis) ) )
-                        ball[aCon].y = (ball[aCon].y) + ( (y / dis) * (0.5 * (maxDis-dis) ) )
-                        ball[bCon].x = (ball[bCon].x) - ( (x / dis) * (0.5 * (maxDis-dis) ) )
-                        ball[bCon].y = (ball[bCon].y) - ( (y / dis) * (0.5 * (maxDis-dis) ) )
+                        
+                        if (aCon != 0) {
+                            ball[aCon].x = (ball[aCon].x) + ( (x / dis) * (0.5 * (maxDis-dis) ) )
+                            ball[aCon].y = (ball[aCon].y) + ( (y / dis) * (0.5 * (maxDis-dis) ) )
+                        }
+                        if (bCon != 0) {
+                            ball[bCon].x = (ball[bCon].x) - ( (x / dis) * (0.5 * (maxDis-dis) ) )
+                            ball[bCon].y = (ball[bCon].y) - ( (y / dis) * (0.5 * (maxDis-dis) ) )
+                        }
                     }
                 }
             }
@@ -112,7 +115,10 @@ function loop(e) {
     const sec = e / 1000
     
     eraseAll()
+    
+    mouse()
     update()
+    
     render()
     
     
@@ -135,6 +141,7 @@ addEventListener("keydown", (e)=>{
     if (e.key == " ") {
         createBall(0, 0, (Math.random() * 40 + 10), ((Math.random()-0.5) * 50), ((Math.random()-0.5) * 50), `rgb(${Math.random() * 150 + 75}, ${Math.random() * 200 + 75}, ${Math.random() * 200 + 75})`)
         // createBall(0, 0, 20, 1, 0, `rgb(${Math.random() * 150 + 75}, ${Math.random() * 200 + 75}, ${Math.random() * 200 + 75})`)
+        // createBall(0, 0, 10, ((Math.random()-0.5) * 50), ((Math.random()-0.5) * 50), `rgb(${Math.random() * 150 + 75}, ${Math.random() * 200 + 75}, ${Math.random() * 200 + 75})`)
     }
     if (e.key == "t") {
         console.table(ball)
