@@ -7,7 +7,12 @@
         },
         [
             {
-                "_projectHeader": "verlet",
+                "_projectHeader": "Kvadratsetningen",
+                "_link": "./math/kvadratsetningen",
+                "_projectType": "C"
+            },
+            {
+                "_projectHeader": "Verlet",
                 "_projectContentImageLink": "./projectsImages/verlet.png",
                 "_projectContentImageLinkAlt": "stio's pfp",
                 "_link": "./verlet",
