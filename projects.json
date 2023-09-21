@@ -7,8 +7,8 @@
         },
         [
             {
-                "_projectHeader": "Konjugatsetningen",
-                "_link": "./math/konjugatsetningen",
+                "_projectHeader": "Kvadratsetning",
+                "_link": "./math/kvadratsetning",
                 "_projectType": "C"
             },
             {
