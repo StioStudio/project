@@ -45,7 +45,5 @@
 <script type="module">
     // let rem = await(await fetch("/assets/projects.json")).json()
     let rem = await(await fetch("./projects.json")).json()
-    for (let i = rem.length - 1; i > -1; i--) {
-        addProjectBox(rem[i][0]._InsertPosition, rem[i][0]._projectBoxHeader, rem[i][1])
-    }
+    contentCreate(rem)
 </script>
