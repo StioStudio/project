@@ -8,6 +8,11 @@
         },
         [
             {
+                "_projectHeader": "Music Player",
+                "_link": "./music-player",
+                "_projectType": "C"
+            },
+            {
                 "_projectHeader": "Kvadratsetning",
                 "_link": "./math/kvadratsetning",
                 "_projectType": "C"
