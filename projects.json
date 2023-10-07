@@ -8,6 +8,11 @@
         },
         [
             {
+                "_projectHeader": "Notification",
+                "_link": "./notification",
+                "_projectType": "C"
+            },
+            {
                 "_projectHeader": "Music Player",
                 "_link": "./music-player",
                 "_projectType": "C"

@@ -36,7 +36,7 @@ let mouseY = 0
 let mouseX = 0
 
 let ball = []
-let subSteps = 20
+let subSteps = 3
 let x, y, aCon, bCon, maxDis, dis = 0
 
 let xGrav = 0
