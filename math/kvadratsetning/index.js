@@ -10,7 +10,7 @@ let input = {
 
 code()
 
-addEventListener("keypress", ()=>{
+addEventListener("change", ()=>{
     setTimeout(code, 10)
 })
 
