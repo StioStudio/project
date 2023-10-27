@@ -18,16 +18,25 @@
                 "_projectType": "C"
             },
             {
-                "_projectHeader": "Kvadratsetning",
-                "_link": "./math/kvadratsetning",
-                "_projectType": "C"
-            },
-            {
                 "_projectHeader": "Verlet",
                 "_projectContentImageLink": "./projectsImages/verlet.png",
                 "_projectContentImageLinkAlt": "stio's pfp",
                 "_link": "./verlet",
                 "_projectType": "A"
+            }
+        ]
+    ],
+    [
+        {
+            "_projectBoxHeader": "Math",
+            "_id": "Math",
+            "_InsertPosition": "afterBegin"
+        },
+        [
+            {
+                "_projectHeader": "Kvadratsetning",
+                "_link": "./math/kvadratsetning",
+                "_projectType": "C"
             }
         ]
     ]
