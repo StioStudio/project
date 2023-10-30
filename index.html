@@ -16,18 +16,19 @@
     
     <link rel="stylesheet" href="https://asset.stio.studio/index.css">
     <script src="https://asset.stio.studio/func.js"></script>
-    <!-- <script src="/assets/func.js"></script> -->
+    <!-- <script src="/asset/func.js"></script> -->
 </head>
 <body onload="document.querySelector('html').classList.add('loaded');">
+    <script type="module" src="./index.js"></script>
     <div class="header">
         <div class="header-heading">
-            <h1>STIO's projects</h1>
+            <h1><tra>STIO's projects</tra></h1>
         </div>
         <div class="box-shadow header-info bigBox overflow-overlay">
-            <div class="font-size px40">Hello there 😺</div>
-            This is my project website!<br>
-            You can look around and try my projects if you want<br>
-            <a href="https://stio.studio">Main page</a>
+            <div class="font-size px40"><tra>Hello there 😺</tra></div>
+            <tra>This is my project website!</tra><br>
+            <tra>You can look around and try my projects if you want</tra><br>
+            <a href="https://stio.studio"><tra>Main page</tra></a>
         </div>
     </div>
     <div class="content">
@@ -42,8 +43,3 @@
     </div>
 </body>
 </html>
-<script type="module">
-    // let rem = await(await fetch("/assets/projects.json")).json()
-    let rem = await(await fetch("./projects.json")).json()
-    contentCreate(rem)
-</script>

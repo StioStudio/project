@@ -1,0 +1,35 @@
+{
+    "STIO's projects": {
+        "message": "STIO's prosjeker"
+    },
+    "Hello there 😺": {
+        "message": "Hallo der 😺"
+    },
+    "This is my project website!": {
+        "message": "Dette er min nettside!"
+    },
+    "You can look around and try my projects if you want": {
+        "message": "Du kan sjå deg om kring og prøve prosjektene mine vis du vil"
+    },
+    "Main page": {
+        "message": "Hovudside"
+    },
+    "Projects": {
+        "message": "Projects"
+    },
+    "Notification": {
+        "message": "Notification"
+    },
+    "Music Player": {
+        "message": "Music Player"
+    },
+    "Verlet": {
+        "message": "Verlet"
+    },
+    "Math": {
+        "message": "Math"
+    },
+    "Kvadratsetning": {
+        "message": "Kvadratsetning"
+    }
+}

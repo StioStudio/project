@@ -3,22 +3,22 @@
     [
         {
             "_type": "A",
-            "_projectBoxHeader": "Projects",
+            "_projectBoxHeader": "<tra>Projects</tra>",
             "_id": "Projects"
         },
         [
             {
-                "_projectHeader": "Notification",
+                "_projectHeader": "<tra>Notification</tra>",
                 "_link": "./notification",
                 "_projectType": "C"
             },
             {
-                "_projectHeader": "Music Player",
+                "_projectHeader": "<tra>Music Player</tra>",
                 "_link": "./music-player",
                 "_projectType": "C"
             },
             {
-                "_projectHeader": "Verlet",
+                "_projectHeader": "<tra>Verlet</tra>",
                 "_projectContentImageLink": "./projectsImages/verlet.png",
                 "_projectContentImageLinkAlt": "stio's pfp",
                 "_link": "./verlet",
@@ -29,12 +29,12 @@
     [
         {
             "_type": "A",
-            "_projectBoxHeader": "Math",
+            "_projectBoxHeader": "<tra>Math</tra>",
             "_id": "Math"
         },
         [
             {
-                "_projectHeader": "Kvadratsetning",
+                "_projectHeader": "<tra>Kvadratsetning</tra>",
                 "_link": "./math/kvadratsetning",
                 "_projectType": "C"
             }
