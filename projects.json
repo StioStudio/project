@@ -2,9 +2,9 @@
     
     [
         {
+            "_type": "A",
             "_projectBoxHeader": "Projects",
-            "_id": "Projects",
-            "_InsertPosition": "afterBegin"
+            "_id": "Projects"
         },
         [
             {
@@ -28,9 +28,9 @@
     ],
     [
         {
+            "_type": "A",
             "_projectBoxHeader": "Math",
-            "_id": "Math",
-            "_InsertPosition": "afterBegin"
+            "_id": "Math"
         },
         [
             {
