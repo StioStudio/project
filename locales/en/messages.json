@@ -31,5 +31,8 @@
     },
     "Kvadratsetning": {
         "message": "Quadratic theorem"
+    },
+    "Quote": {
+        "message": "Quote"
     }
 }

@@ -8,6 +8,11 @@
         },
         [
             {
+                "_projectHeader": "<tra>Quote</tra>",
+                "_link": "./quote",
+                "_projectType": "C"
+            },
+            {
                 "_projectHeader": "<tra>Notification</tra>",
                 "_link": "./notification",
                 "_projectType": "C"
