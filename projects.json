@@ -8,6 +8,11 @@
         },
         [
             {
+                "_projectHeader": "Metatags",
+                "_link": "./meta",
+                "_projectType": "C"
+            },
+            {
                 "_projectHeader": "<tra>Quote</tra>",
                 "_link": "./quote",
                 "_projectType": "C"
