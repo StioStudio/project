@@ -13,16 +13,16 @@ function updateMeta() {
     // console.log(meta)
 
     metaDisplay.innerText = `<title>${meta.Title}</title>
-    <meta property='og:title' content='STIO'/>
+    <meta property='og:title' content='${meta.Title}'/>
     <meta property='og:description' content="${meta.Description}"/>
     
     <meta name="language" content="${meta.Language}">
     
     <meta name="og:type" content="${meta.Type}"/>
     
-    <meta name="owner" content="stio">
+    <meta name="owner" content="${meta.Owner}">
     <meta name="author" content="${meta.Author}">
-    <meta name="reply-to" content="hello@stio.studio">
+    <meta name="reply-to" content="${meta.Email}">
     <meta name="og:email" content="${meta.Email}"/>
     <meta name="og:country-name" content="${meta.Country}"/>
     
