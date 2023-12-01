@@ -1,0 +1,33 @@
+body {
+    margin: 0;
+}
+main#content.content, body, html {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    z-index: 0;
+    position: absolute;
+}
+.resize-a1, .resize-c3 {
+    cursor: se-resize;
+}
+.resize-a3, .resize-c1 {
+    cursor: ne-resize;
+}
+.resize-a2, .resize-c2 {
+    cursor: n-resize;
+}
+.resize-b1, .resize-b3 {
+    cursor: e-resize;
+}
+* {
+    cursor: pointer;
+}
+/* .box {
+    left: 0;
+    right: 0;
+    height: 100px;
+    width: 100px;
+    background-color: red;
+    position: absolute;
+} */

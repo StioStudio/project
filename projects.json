@@ -8,6 +8,11 @@
         },
         [
             {
+                "_projectHeader": "OS",
+                "_link": "./os",
+                "_projectType": "C"
+            },
+            {
                 "_projectHeader": "Metatags",
                 "_link": "./meta",
                 "_projectType": "C"
