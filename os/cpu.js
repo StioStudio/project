@@ -153,6 +153,7 @@ async function runScript(scriptURL) {
     
     let rem = newBox(true)
     
+    // move to newBox MW
     // document.createElement("div").addEventListener("click")
     rem.titleBar.addEventListener("pointerdown", (e)=>{
         rem.drag = true
@@ -189,7 +190,7 @@ async function runScript(scriptURL) {
     scriptCounter++
 }
 
-for (let index = 0; index < 10; index++) {
+for (let index = 0; index < 3; index++) {
     runScript("./C/userscript.js")
 }
 
