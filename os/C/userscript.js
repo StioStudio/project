@@ -7,7 +7,7 @@ export default function({script, box, console}) {
     box.y(Math.random()*innerHeight)
     let rem = document.createElement("iframe")
     rem.src = "https://stio.studio"
-    rem.style = "width: 100%; height: 100%;"
+    rem.style = "width: 100%; height: 100%; border: 0;"
     box.contentBox.append(rem)
 
     // setTimeout(()=>{

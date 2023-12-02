@@ -131,6 +131,21 @@ function newBox(_append = false) {
         e[1].addEventListener("click", (a)=>{
             console.log(e)
         })
+
+        e[1].addEventListener("pointerdown", (e)=>{
+            e[1].drag = true
+            e[1].dragOffsetX = e.x - rem.varX
+            e[1].dragOffsetY = e.y - rem.varY
+        })
+        e[1].addEventListener("pointermove", (e)=>{
+            if(rem.drag) {
+                e[1].x(e.x - rem.dragOffsetX)
+                e[1].y(e.y - rem.dragOffsetY)
+            }
+        })
+        e[1].addEventListener("pointerup", (e)=>{
+            e[1].drag = false
+        })
     })
 
     boxCounter++
