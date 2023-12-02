@@ -26,7 +26,7 @@ function newBox(_append = false) {
         varHeight: 0,
         width(width){
             this.element.style.width = `${width}px`
-            this.width = width
+            this.varWidth = width
         },
         height(height){
             this.element.style.height = `${height}px`
@@ -38,47 +38,100 @@ function newBox(_append = false) {
         titleBar: document.createElement("div"),
         contentBox: document.createElement("div"),
         resize: {
-            a1: document.createElement("div"),
-            a2: document.createElement("div"),
-            a3: document.createElement("div"),
-            b1: document.createElement("div"),
-            b3: document.createElement("div"),
-            c1: document.createElement("div"),
-            c2: document.createElement("div"),
-            c3: document.createElement("div"),
+            a1: {},
+            a2: {},
+            a3: {},
+            b1: {},
+            b3: {},
+            c1: {},
+            c2: {},
+            c3: {},
         },
     }
 
+    Object.entries(rem.resize).forEach(e => {    
+        rem.resize[e[0]] = {
+            content,
+            element: document.createElement("div"),
+            id: 0,
+            varX: 0,
+            varY: 0,
+            remX: 0,
+            remY: 0,
+            x(x){
+                this.element.style.left = `${x}px`
+                this.varX = x
+            },
+            y(y){
+                this.element.style.top = `${y}px`
+                this.varY = y
+            },
+            varWidth: 0,
+            varHeight: 0,
+            width(width){
+                this.element.style.width = `${width}px`
+                this.width = width
+            },
+            height(height){
+                this.element.style.height = `${height}px`
+                this.varHeight = height
+            },
+            remHeight: 0,
+            remWidth: 0,
+            drag: false,
+            dragOffsetX: 0,
+            dragOffsetY: 0,
+            upDown: 0,
+            rightLeft: 0,
+        }
+    });
     Object.entries(rem.resize).forEach(e => {
         // console.log(e[1])
-        e[1].style = `height: 30px;
+        e[1].element.style = `height: 30px;
         width: 30px;
         position: absolute;
         background-color: gray;
         z-index: -1;`
-        e[1].className = `resize resize-${e[0]}`
-        rem.element.append(e[1])
+        e[1].element.className = `resize resize-${e[0]}`
+        rem.element.append(e[1].element)
     });
-    rem.resize.a1.style.left = "0px"
-    rem.resize.a1.style.top = "0px"
-    rem.resize.a2.style.left = "30px"
-    rem.resize.a2.style.top = "0px"
-    rem.resize.a2.style.width = "calc(100% - 60px)"
-    rem.resize.a3.style.right = "0px"
-    rem.resize.a3.style.top = "0px"
-    rem.resize.b1.style.left = "0px"
-    rem.resize.b1.style.top = "30px"
-    rem.resize.b1.style.height = "calc(100% - 60px)"
-    rem.resize.b3.style.right = "0px"
-    rem.resize.b3.style.top = "30px"
-    rem.resize.b3.style.height = "calc(100% - 60px)"
-    rem.resize.c1.style.left = "0px"
-    rem.resize.c1.style.bottom = "0px"
-    rem.resize.c2.style.left = "30px"
-    rem.resize.c2.style.bottom = "0px"
-    rem.resize.c2.style.width = "calc(100% - 60px)"
-    rem.resize.c3.style.right = "0px"
-    rem.resize.c3.style.bottom = "0px"
+    // console.log(rem)
+    rem.resize.a1.element.style.left = "0px"
+    rem.resize.a1.element.style.top = "0px"
+    rem.resize.a1.rightLeft = -1
+    rem.resize.a1.upDown = -1
+    rem.resize.a2.element.style.left = "30px"
+    rem.resize.a2.element.style.top = "0px"
+    rem.resize.a2.element.style.width = "calc(100% - 60px)"
+    rem.resize.a2.rightLeft = 0
+    rem.resize.a2.upDown = -1
+    rem.resize.a3.element.style.right = "0px"
+    rem.resize.a3.element.style.top = "0px"
+    rem.resize.a3.rightLeft = 1
+    rem.resize.a3.upDown = -1
+    rem.resize.b1.element.style.left = "0px"
+    rem.resize.b1.element.style.top = "30px"
+    rem.resize.b1.element.style.height = "calc(100% - 60px)"
+    rem.resize.b1.rightLeft = -1
+    rem.resize.b1.upDown = 0
+    rem.resize.b3.element.style.right = "0px"
+    rem.resize.b3.element.style.top = "30px"
+    rem.resize.b3.element.style.height = "calc(100% - 60px)"
+    rem.resize.b3.rightLeft = 1
+    rem.resize.b3.upDown = 0
+    rem.resize.c1.element.style.left = "0px"
+    rem.resize.c1.element.style.bottom = "0px"
+    rem.resize.c1.rightLeft = -1
+    rem.resize.c1.upDown = 1
+    rem.resize.c2.element.style.left = "30px"
+    rem.resize.c2.element.style.bottom = "0px"
+    rem.resize.c2.element.style.width = "calc(100% - 60px)"
+    rem.resize.c2.rightLeft = 0
+    rem.resize.c2.upDown = 1
+    rem.resize.c3.element.style.right = "0px"
+    rem.resize.c3.element.style.bottom = "0px"
+    rem.resize.c3.rightLeft = 1
+    rem.resize.c3.upDown = 1
     
     rem.element.className = "box"
     rem.element.style = `left: 0px;
@@ -127,23 +180,37 @@ function newBox(_append = false) {
         rem.drag = false
     })
 
-    Object.entries(rem.resize).forEach(e => {
-        e[1].addEventListener("click", (a)=>{
-            console.log(e)
-        })
-
-        e[1].addEventListener("pointerdown", (e)=>{
+    Object.entries(rem.resize).forEach(e => {        
+        e[1].element.addEventListener("pointerdown", (a)=>{
+            // console.log(e)
             e[1].drag = true
-            e[1].dragOffsetX = e.x - rem.varX
-            e[1].dragOffsetY = e.y - rem.varY
+            e[1].dragOffsetX = a.x - e[1].varX
+            e[1].dragOffsetY = a.y - e[1].varY
+            e[1].remY = e[1].varY
+            e[1].remX = e[1].varX
+            e[1].remHeight = rem.varHeight
+            e[1].remWidth = rem.varWidth
         })
-        e[1].addEventListener("pointermove", (e)=>{
-            if(rem.drag) {
-                e[1].x(e.x - rem.dragOffsetX)
-                e[1].y(e.y - rem.dragOffsetY)
+        e[1].content.addEventListener("pointermove", (a)=>{
+            if(e[1].drag) {
+                console.log(e[1].dragOffsetX, e[1].dragOffsetY)
+                if(e[1].rightLeft == 1) {
+                    rem.width(e[1].remWidth + a.x - e[1].dragOffsetX + e[1].varX)
+                }
+                if(e[1].upDown == 1) {
+                    rem.height(e[1].remHeight + a.y - e[1].dragOffsetY + e[1].varY)
+                }
+                if(e[1].rightLeft == -1) {
+                    rem.x(a.x + rem.dragOffsetX)
+                    rem.width(e[1].remWidth - a.x + e[1].dragOffsetX + e[1].remX)
+                }
+                if(e[1].upDown == -1) {
+                    rem.y(a.y + rem.dragOffsetY)
+                    rem.height(e[1].remHeight - a.y + e[1].dragOffsetY + e[1].remY)
+                }
             }
         })
-        e[1].addEventListener("pointerup", (e)=>{
+        e[1].content.addEventListener("pointerup", (a)=>{
             e[1].drag = false
         })
     })
@@ -208,7 +275,7 @@ async function runScript(scriptURL) {
     scriptCounter++
 }
 
-for (let index = 0; index < 3; index++) {
+for (let index = 0; index < 1; index++) {
     runScript("./C/userscript.js")
 }
 
