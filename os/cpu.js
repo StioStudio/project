@@ -104,12 +104,35 @@ function newBox(_append = false) {
     rem.contentBox.style = `height: calc(100% - 30px);
     width: 100%;
     background-color: blue;
-    border-radius: 0px 0px 3px 3px;`
+    border-radius: 0px 0px 3px 3px;
+    overflow: hidden;`
 
     rem.element.append(rem.titleBar)
     rem.element.append(rem.contentBox)
         
     if(_append){content.append(rem.element)}
+
+    rem.titleBar.addEventListener("pointerdown", (e)=>{
+        rem.drag = true
+        rem.dragOffsetX = e.x - rem.varX
+        rem.dragOffsetY = e.y - rem.varY
+    })
+    rem.content.addEventListener("pointermove", (e)=>{
+        if(rem.drag) {
+            rem.x(e.x - rem.dragOffsetX)
+            rem.y(e.y - rem.dragOffsetY)
+        }
+    })
+    rem.content.addEventListener("pointerup", (e)=>{
+        rem.drag = false
+    })
+
+    Object.entries(rem.resize).forEach(e => {
+        e[1].addEventListener("click", (a)=>{
+            console.log(e)
+        })
+    })
+
     boxCounter++
     return rem
 }
@@ -155,26 +178,6 @@ async function runScript(scriptURL) {
     
     // move to newBox MW
     // document.createElement("div").addEventListener("click")
-    rem.titleBar.addEventListener("pointerdown", (e)=>{
-        rem.drag = true
-        rem.dragOffsetX = e.x - rem.varX
-        rem.dragOffsetY = e.y - rem.varY
-    })
-    rem.content.addEventListener("pointermove", (e)=>{
-        if(rem.drag) {
-            rem.x(e.x - rem.dragOffsetX)
-            rem.y(e.y - rem.dragOffsetY)
-        }
-    })
-    rem.content.addEventListener("pointerup", (e)=>{
-        rem.drag = false
-    })
-
-    Object.entries(rem.resize).forEach(e => {
-        e[1].addEventListener("click", (a)=>{
-            console.log(e)
-        })
-    })
 
     windowsConsole.logAuthor = `${module.settings.type}: ${scriptCounter}, ${scriptInfo.info.scriptId}`
     const localConsole = windowsConsole
