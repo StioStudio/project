@@ -2,6 +2,28 @@ let rem;
 let scriptCounter = 0
 let boxCounter = 0
 let content = document.querySelector("main#content.content")
+let script = []
+const _realConsole = console
+const win = {}
+
+const consoleOutput = (logAuthor = "[page]") => {
+    const style = {
+      // Remember to change these as well on cs.js
+      leftPrefix: "background:  #24b0ff; color: white; border-radius: 0.5rem 0 0 0.5rem; padding: 0 0.5rem",
+      rightPrefix:
+        "background: #222; color: white; border-radius: 0 0.5rem 0.5rem 0; padding: 0 0.5rem; font-weight: bold",
+      text: "",
+    };
+    return [`%cWindows%c${logAuthor}%c`, style.leftPrefix, style.rightPrefix, style.text];
+}
+win.createConsole = {
+    log: (e) => _realConsole.log.bind(_realConsole, ...consoleOutput(e)),
+}
+const localConsole = {
+    log: win.createConsole.log(`cpu`),
+}
+win.console = { ...console, ...localConsole }
+
 
 function updateBox(box, boxElement = box.element) {
     boxElement.style.left = `${box.x}px`
@@ -47,6 +69,8 @@ function newBox(_append = false) {
             c2: {},
             c3: {},
         },
+        minHeight: 100,
+        minWidth: 100,
     }
 
     Object.entries(rem.resize).forEach(e => {    
@@ -86,7 +110,6 @@ function newBox(_append = false) {
         }
     });
     Object.entries(rem.resize).forEach(e => {
-        // console.log(e[1])
         e[1].element.style = `height: 30px;
         width: 30px;
         position: absolute;
@@ -169,6 +192,7 @@ function newBox(_append = false) {
         rem.drag = true
         rem.dragOffsetX = e.x - rem.varX
         rem.dragOffsetY = e.y - rem.varY
+        rem.element.setPointerCapture(e.pointerId)
     })
     rem.content.addEventListener("pointermove", (e)=>{
         if(rem.drag) {
@@ -178,6 +202,7 @@ function newBox(_append = false) {
     })
     rem.content.addEventListener("pointerup", (e)=>{
         rem.drag = false
+        rem.element.releasePointerCapture(e.pointerId)
     })
 
     Object.entries(rem.resize).forEach(e => {        
@@ -190,21 +215,21 @@ function newBox(_append = false) {
             e[1].remX = e[1].varX
             e[1].remHeight = rem.varHeight
             e[1].remWidth = rem.varWidth
+            rem.element.setPointerCapture(a.pointerId)
         })
         e[1].content.addEventListener("pointermove", (a)=>{
             if(e[1].drag) {
-                console.log(e[1].dragOffsetX, e[1].dragOffsetY)
-                if(e[1].rightLeft == 1) {
+                if(e[1].rightLeft == 1 && e[1].remWidth + (a.x - e[1].dragOffsetX) > rem.minWidth) {
                     rem.width(e[1].remWidth + a.x - e[1].dragOffsetX + e[1].varX)
                 }
-                if(e[1].upDown == 1) {
+                if(e[1].upDown == 1 && e[1].remHeight + (a.y - e[1].dragOffsetY) > rem.minHeight) {
                     rem.height(e[1].remHeight + a.y - e[1].dragOffsetY + e[1].varY)
                 }
-                if(e[1].rightLeft == -1) {
+                if(e[1].rightLeft == -1 && e[1].remWidth - (a.x - e[1].dragOffsetX) > rem.minWidth) {
                     rem.x(a.x)
                     rem.width(e[1].remWidth - a.x + e[1].dragOffsetX + e[1].remX)
                 }
-                if(e[1].upDown == -1) {
+                if(e[1].upDown == -1 && e[1].remHeight - (a.y - e[1].dragOffsetY) > rem.minHeight) {
                     rem.y(a.y)
                     rem.height(e[1].remHeight - a.y + e[1].dragOffsetY + e[1].remY)
                 }
@@ -212,6 +237,7 @@ function newBox(_append = false) {
         })
         e[1].content.addEventListener("pointerup", (a)=>{
             e[1].drag = false
+            rem.element.releasePointerCapture(a.pointerId)
         })
     })
 
@@ -219,28 +245,10 @@ function newBox(_append = false) {
     return rem
 }
 
-const consoleOutput = (logAuthor = "[page]") => {
-    const style = {
-      // Remember to change these as well on cs.js
-      leftPrefix: "background:  #24b0ff; color: white; border-radius: 0.5rem 0 0 0.5rem; padding: 0 0.5rem",
-      rightPrefix:
-        "background: #222; color: white; border-radius: 0 0.5rem 0.5rem 0; padding: 0 0.5rem; font-weight: bold",
-      text: "",
-    };
-    return [`%cWindows%c${logAuthor}%c`, style.leftPrefix, style.rightPrefix, style.text];
-};
-
-let script = []
-let windowsConsole = {
-    logAuthor: "cpu",
-    log(...e){console.log.bind(console, ...consoleOutput(this.logAuthor), ...e)()}
-}
-
 // let hi = "./hello/hi.js"
 // [].toString()
 // "".replace(",", "/")
 async function runScript(scriptURL, {giveInfo = {}} = {}) {
-    console.log(scriptURL)
     const [module] = await Promise.all([
         import(scriptURL)
     ]);
@@ -264,14 +272,15 @@ async function runScript(scriptURL, {giveInfo = {}} = {}) {
     // move to newBox MW
     // document.createElement("div").addEventListener("click")
 
-    windowsConsole.logAuthor = `${module.settings.type}: ${scriptCounter}, ${scriptInfo.info.scriptId}`
-    const localConsole = windowsConsole
+    // windowsConsole.logAuthor = `${module.settings.type}: ${scriptCounter}, ${scriptInfo.info.scriptId}`
+    const localConsole = {
+        log: win.createConsole.log(`${module.settings.type}: ${scriptCounter}, ${scriptInfo.info.scriptId}`),
+    }
     script[scriptCounter] = {
         script: scriptInfo,
-        console: {...console, ...localConsole},
+        console: { ...console, ...localConsole },
         box: rem,
     }
-    windowsConsole.logAuthor = "cpu"
     
     module.default(script[scriptCounter])
     

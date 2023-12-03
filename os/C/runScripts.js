@@ -1,8 +1,9 @@
 export default async function({script, box, console}) {
-    console.log(script, box)
     
-    box.width(700)
-    box.height(1000)
+    console.log("hi")
+    
+    box.width(innerWidth-10)
+    box.height(innerHeight-10)
     box.x(0)
     box.y(0)
     // document.createElement("div").addEventListener("click", (e)=>{
@@ -16,7 +17,6 @@ export default async function({script, box, console}) {
         // console.log(rem)
         box.contentBox.append(rem)
         
-        console.log(rem.querySelector(".button"))
         box.contentBox.querySelector(".scriptButton").addEventListener("click", (e)=>{
             // console.log(box.contentBox.querySelector(".input").value)
             script.runScript(box.contentBox.querySelector(".input").value, {giveInfo: {
