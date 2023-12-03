@@ -1,7 +1,7 @@
 body {
     margin: 0;
 }
-main#content.content, body, html {
+main#content.content:not(.box main#content.content), body:not(.box body), html:not(.box html) {
     width: 100%;
     height: 100%;
     overflow: hidden;
@@ -20,7 +20,7 @@ main#content.content, body, html {
 .resize-b1, .resize-b3 {
     cursor: e-resize;
 }
-* {
+*:not(.box *) {
     cursor: pointer;
     touch-action: none;
 }

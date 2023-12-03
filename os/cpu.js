@@ -138,7 +138,7 @@ function newBox(_append = false) {
     top: 0px;
     height: 100%;
     width: 100%;
-    background-color: black;
+    background-color: gray;
     position: absolute;
     border-radius: 8px;
     overflow: hidden;
@@ -152,11 +152,11 @@ function newBox(_append = false) {
     width: 100%;
     background-color: red;
     border-radius: 3px 3px 0px 0px;`
-
+    
     rem.contentBox.className = "contentBox"
     rem.contentBox.style = `height: calc(100% - 30px);
     width: 100%;
-    background-color: blue;
+    background-color: white;
     border-radius: 0px 0px 3px 3px;
     overflow: hidden;`
 
@@ -201,11 +201,11 @@ function newBox(_append = false) {
                     rem.height(e[1].remHeight + a.y - e[1].dragOffsetY + e[1].varY)
                 }
                 if(e[1].rightLeft == -1) {
-                    rem.x(a.x + rem.dragOffsetX)
+                    rem.x(a.x)
                     rem.width(e[1].remWidth - a.x + e[1].dragOffsetX + e[1].remX)
                 }
                 if(e[1].upDown == -1) {
-                    rem.y(a.y + rem.dragOffsetY)
+                    rem.y(a.y)
                     rem.height(e[1].remHeight - a.y + e[1].dragOffsetY + e[1].remY)
                 }
             }
@@ -239,7 +239,8 @@ let windowsConsole = {
 // let hi = "./hello/hi.js"
 // [].toString()
 // "".replace(",", "/")
-async function runScript(scriptURL) {
+async function runScript(scriptURL, {giveInfo = {}} = {}) {
+    console.log(scriptURL)
     const [module] = await Promise.all([
         import(scriptURL)
     ]);
@@ -252,8 +253,10 @@ async function runScript(scriptURL) {
             scriptFolderPath: scriptURL.split("/").slice(0, scriptURL.split("/").length - 1).toString().replace(",", "/"),
             scriptId: scriptURL.split("/")[scriptURL.split("/").length -1],
         },
-        runScript(e){runScript(`${this.info.scriptFolderPath}${e}`)},
+        runScriptLocal(e){runScript(`${this.info.scriptFolderPath}${e}`)},
+        runScript,
         updateBox,
+        giveInfo,
     }
     
     let rem = newBox(true)
@@ -276,7 +279,7 @@ async function runScript(scriptURL) {
 }
 
 for (let index = 0; index < 1; index++) {
-    runScript("./C/userscript.js")
+    runScript("./C/runScripts.js", {giveInfo: {scriptOrWebsite: "script"}})
 }
 
 
