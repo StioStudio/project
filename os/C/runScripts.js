@@ -6,6 +6,8 @@ export default async function({script, box, console}) {
     box.height(innerHeight-10)
     box.x(0)
     box.y(0)
+    box.minHeight = 150
+    box.minWidth = 300
     // document.createElement("div").addEventListener("click", (e)=>{
     //     console.log(e)
     // })
