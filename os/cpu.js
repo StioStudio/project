@@ -175,7 +175,7 @@ function newBox(_append = false) {
         }
     }
     rem.titleBar.buttons.hide.element.addEventListener("click", rem.titleBar.buttons.hide.click)
-    document.addEventListener("keydown", rem.titleBar.buttons.hide.click)
+    document.addEventListener("keydown", (e)=>{if (e.key == " ")rem.titleBar.buttons.hide.click})
     rem_a.className = "closeItem1"
     rem.titleBar.buttons.close.element.append(rem_a.cloneNode(true))
     rem_a.className = "closeItem2"
