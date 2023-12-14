@@ -85,6 +85,22 @@ function newBox(_append = false) {
         },
         minHeight: 100,
         minWidth: 100,
+        hide(bool = true){
+            if(bool) {
+                rem.element.style.display = "none"
+            }
+            else {
+                rem.element.style.display = "block"
+            }    
+        },
+        show(bool = true){
+            if(bool) {
+                rem.element.style.display = "block"
+            }
+            else {
+                rem.element.style.display = "none"
+            }    
+        },
     }
     // win.console.log(rem)
     Object.entries(rem.resize).forEach(e => {    
@@ -154,7 +170,7 @@ function newBox(_append = false) {
     rem.titleBar.element.append(rem.titleBar.dragBar.element)
 
     Object.entries(rem.titleBar.buttons).forEach(e => {    
-        console.log(e)
+        // console.log(e)
         e[1].element = document.createElement("div")
         e[1].element.className = `${e[0]} titleBarButton`
         rem.titleBar.element.append(e[1].element)
@@ -163,19 +179,11 @@ function newBox(_append = false) {
     let rem_a = document.createElement("div")
     rem_a.className = "hideItem1"
     rem.titleBar.buttons.hide.element.append(rem_a.cloneNode(true))
-    rem.titleBar.buttons.hide.toggle = true
-    rem.titleBar.buttons.hide.click = ()=>{
-        rem.titleBar.buttons.hide.toggle = !rem.titleBar.buttons.hide.toggle
-        console.log(rem.titleBar.buttons.hide.toggle)
-        if(rem.titleBar.buttons.hide.toggle) {
-            rem.element.style.display = "block"
-        }
-        else {
-            rem.element.style.display = "none"
-        }
-    }
-    rem.titleBar.buttons.hide.element.addEventListener("click", rem.titleBar.buttons.hide.click)
-    document.addEventListener("keydown", (e)=>{if (e.key == " ")rem.titleBar.buttons.hide.click})
+    // rem.titleBar.buttons.hide.toggle = false
+    // rem.titleBar.buttons.hide.click = ()=>{
+    //     rem.titleBar.buttons.hide.toggle = true
+    //     rem.hide(rem.titleBar.buttons.hide.toggle)
+    // }
     rem_a.className = "closeItem1"
     rem.titleBar.buttons.close.element.append(rem_a.cloneNode(true))
     rem_a.className = "closeItem2"
@@ -285,6 +293,7 @@ async function runScript(scriptURL, {giveInfo = {}} = {}) {
     let scriptInfo = {
         settings: module.settings,
         info: {
+            script: module,
             scriptCounter,
             scriptURL,
             scriptFolderPath: scriptURL.split("/").slice(0, scriptURL.split("/").length - 1).toString().replace(",", "/"),
@@ -297,7 +306,9 @@ async function runScript(scriptURL, {giveInfo = {}} = {}) {
     }
     
     let rem = newBox(true)
-    
+    rem.titleBar.buttons.hide.element.addEventListener("click", ()=>{rem.hide()})
+    document.addEventListener("keydown", (e)=>{if (e.key == " "){rem.show()}})
+
     // move to newBox MW
     // document.createElement("div").addEventListener("click")
 
@@ -319,3 +330,6 @@ async function runScript(scriptURL, {giveInfo = {}} = {}) {
 for (let index = 0; index < 1; index++) {
     runScript("./C/runScripts.js", {giveInfo: {scriptOrWebsite: "script"}})
 }
+// addEventListener("keydown", (e)=>{
+//     win.console.log(script)
+// })

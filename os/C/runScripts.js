@@ -1,6 +1,6 @@
 export default async function({script, box, console}) {
     
-    console.log("hi")
+    // console.log(script)
     
     box.width(innerWidth-10)
     box.height(innerHeight-10)
