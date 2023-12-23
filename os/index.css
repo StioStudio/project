@@ -52,7 +52,7 @@ main#content.content:not(.box main#content.content), body:not(.box body), html:n
     top: 0px;
     height: 100%;
     width: 100%;
-    background-color: gray;
+    background-color: transparent;
     position: absolute;
     border-radius: 8px;
     overflow: hidden;

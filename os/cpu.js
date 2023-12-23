@@ -1,8 +1,6 @@
-let rem;
-let scriptCounter = 0
-let boxCounter = 0
-let content = document.querySelector("main#content.content")
-let script = []
+const testDiv = document.createElement("div")
+testDiv.style.height = "100%"
+document.body.append(testDiv)
 const _realConsole = console
 const win = {}
 
@@ -18,20 +16,154 @@ const consoleOutput = (logAuthor = "[page]") => {
 }
 win.createConsole = {
     log: (e) => _realConsole.log.bind(_realConsole, ...consoleOutput(e)),
+    error: (e) => _realConsole.error.bind(_realConsole, ...consoleOutput(e)),
 }
 const localConsole = {
     log: win.createConsole.log(`cpu`),
+    error: win.createConsole.error(`cpu`),
 }
 win.console = { ...console, ...localConsole }
 
-
-function updateBox(box, boxElement = box.element) {
-    boxElement.style.left = `${box.x}px`
-    boxElement.style.top = `${box.y}px`
+let url = new URL(document.location.href)
+let path = url.pathname.split("/")
+if(path[path.length-1] == "index.html") {
+    path.pop()
+    path.shift()
 }
-function newBox(_append = false) {
+// win.console.log(path)
+// testDiv.style.bottom
+let rem;
+let scriptCounter = 0
+let boxCounter = 0
+let content = {
+    element: document.querySelector("main#content.content"),
+    display: {
+        height(){
+            let rem = 0;
+            function addNumber(e){
+                if(e instanceof HTMLElement){
+                    return rem += e.getBoundingClientRect().height
+                }
+                if(typeof e == "number"){
+                    return rem += e
+                }
+                win.console.error(e, "is wrong")
+            }
+            this.top.forEach((e)=>{
+                addNumber(e)
+            })
+            this.bottom.forEach((e)=>{
+                addNumber(e)
+            })
+            return rem
+        },
+        width(){
+            let rem = 0;
+            function addNumber(e){
+                if(e instanceof HTMLElement){
+                    return rem += e.getBoundingClientRect().height
+                }
+                if(typeof e == "number"){
+                    return rem += e
+                }
+                win.console.error(e, "is wrong")
+            }
+            this.left.forEach((e)=>{
+                addNumber(e)
+            })
+            this.right.forEach((e)=>{
+                addNumber(e)
+            })
+            return rem
+        },
+        top: [testDiv],
+        bottom: [100],
+        left: [],
+        right: [],
+        addDisplayInterrupter(place, length){
+            if(!["top", "bottom", "left", "right"].includes(place))return win.console.error(place, "is not a valid place")
+            this[place].push(length)
+        }
+    },
+}
+// setTimeout(()=>{
+//     content.display.addDisplayInterrupter("top", 10)
+//     console.log(content.display.height())
+// }, 2000)
+// content.display.addDisplayInterrupter("top", 10)
+// console.log(content.display.height())
+
+let script = []
+
+function foreverLoop(_stop, _func) {
+    const _loop = (e)=>{
+        // console.log(!script[_stop].script.stop, _stop)
+        if(!script[_stop].script.stop){
+            _func(e)
+            requestAnimationFrame(_loop)
+        }
+    }
+    requestAnimationFrame(_loop)
+}
+function getFileById(fileId) {
+    // MW
+    win.console.error("MW")
+}
+function newBox(_append = false, {classList = []} = {}) {
     const rem = {
-        content,
+        content: content.element,
+        element: document.createElement("div"),
+        id: 0,
+        varX: 0,
+        varY: 0,
+        x(x){
+            this.element.style.left = `${x}px`
+            this.varX = x
+        },
+        y(y){
+            this.element.style.top = `${y}px`
+            this.varY = y
+        },
+        varWidth: 0,
+        varHeight: 0,
+        width(width){
+            this.element.style.width = `${width}px`
+            this.varWidth = width
+        },
+        height(height){
+            this.element.style.height = `${height}px`
+            this.varHeight = height
+        },
+        hide(bool = true){
+            if(bool) {
+                rem.element.style.display = "none"
+            }
+            else {
+                rem.element.style.display = "block"
+            }    
+        },
+        show(bool = true){
+            if(bool) {
+                rem.element.style.display = "block"
+            }
+            else {
+                rem.element.style.display = "none"
+            }    
+        },
+    }
+
+    rem.element.className = `box ${classList.join(" ")}`
+    rem.element.id = `box-${boxCounter}`
+    rem.id = boxCounter
+
+    if(_append){content.element.append(rem.element)}
+
+    boxCounter++
+    return rem
+}
+function newWindow(_append = false, {_scriptCounter} = {}) {
+    const rem = {
+        content: content.element,
         element: document.createElement("div"),
         id: 0,
         varX: 0,
@@ -101,11 +233,24 @@ function newBox(_append = false) {
                 rem.element.style.display = "none"
             }    
         },
+        close(_scriptCounter){
+            if(!(typeof _scriptCounter == "number")){win.console.error("_scriptCounter needs a number. You gave: ", _scriptCounter);return}
+            // console.log(script, _scriptCounter)
+            script[_scriptCounter].script.stop = true
+            // document.createElement("div").
+            script[_scriptCounter].box.element.remove()
+            script[_scriptCounter] = {
+                script: {
+                    stop: true
+                }
+            }
+            // console.log(script)
+        },
     }
     // win.console.log(rem)
     Object.entries(rem.resize).forEach(e => {    
         rem.resize[e[0]] = {
-            content,
+            content: content.element,
             element: document.createElement("div"),
             id: 0,
             varX: 0,
@@ -191,11 +336,17 @@ function newBox(_append = false) {
     rem_a.className = "max_minItem1"
     rem.titleBar.buttons.max_min.element.append(rem_a.cloneNode(true))
 
+    if(typeof _scriptCounter == "number"){
+        rem.titleBar.buttons.hide.element.addEventListener("click", ()=>{rem.hide()})
+        rem.titleBar.buttons.close.element.addEventListener("click", ()=>{rem.close(_scriptCounter)})
+        addEventListener("keydown", (e)=>{if (e.key == " "){rem.show()}})
+    }
+
     rem.contentBox.className = "contentBox"
     rem.element.append(rem.titleBar.element)
     rem.element.append(rem.contentBox)
         
-    if(_append){content.append(rem.element)}
+    if(_append){content.element.append(rem.element)}
 
     rem.titleBar.dragBar.element.addEventListener("pointerdown", (e)=>{
         rem.drag = true
@@ -282,6 +433,14 @@ function newBox(_append = false) {
     return rem
 }
 
+function urlHandler(_url) {
+    let url = _url
+    if(_url.slice(0, 2) == "./") {
+        url = path + _url.slice(2, _url.length)
+    }
+    return url
+}
+
 // let hi = "./hello/hi.js"
 // [].toString()
 // "".replace(",", "/")
@@ -290,24 +449,27 @@ async function runScript(scriptURL, {giveInfo = {}} = {}) {
         import(scriptURL)
     ]);
 
+    let _path = scriptURL.split("/").slice(0, scriptURL.split("/").length - 1)
+    _path.shift()
+
     let scriptInfo = {
         settings: module.settings,
         info: {
             script: module,
             scriptCounter,
             scriptURL,
-            scriptFolderPath: scriptURL.split("/").slice(0, scriptURL.split("/").length - 1).toString().replace(",", "/"),
+            scriptFolderPath: path.concat(_path),
             scriptId: scriptURL.split("/")[scriptURL.split("/").length -1],
         },
+        giveInfo,
         runScriptLocal(e){runScript(`${this.info.scriptFolderPath}${e}`)},
         runScript,
-        updateBox,
-        giveInfo,
+        getFileById,
+        newBox,
+        newWindow,
+        foreverLoop: (_func) => foreverLoop(scriptInfo.info.scriptCounter, _func),
+        stop: false,
     }
-    
-    let rem = newBox(true)
-    rem.titleBar.buttons.hide.element.addEventListener("click", ()=>{rem.hide()})
-    document.addEventListener("keydown", (e)=>{if (e.key == " "){rem.show()}})
 
     // move to newBox MW
     // document.createElement("div").addEventListener("click")
@@ -315,21 +477,32 @@ async function runScript(scriptURL, {giveInfo = {}} = {}) {
     // windowsConsole.logAuthor = `${module.settings.type}: ${scriptCounter}, ${scriptInfo.info.scriptId}`
     const localConsole = {
         log: win.createConsole.log(`${module.settings.type}: ${scriptCounter}, ${scriptInfo.info.scriptId}`),
+        error: win.createConsole.error(`${module.settings.type}: ${scriptCounter}, ${scriptInfo.info.scriptId}`),
     }
     script[scriptCounter] = {
         script: scriptInfo,
         console: { ...console, ...localConsole },
-        box: rem,
     }
+    if(module.settings.type == "app") {
+        let rem = newWindow(true, {_scriptCounter: scriptInfo.info.scriptCounter})
+        script[scriptCounter].box = rem
+    }
+    if(module.settings.type == "script") {
+        script[scriptCounter].content = content.element
+    }
+
     
     module.default(script[scriptCounter])
-    
+
     scriptCounter++
 }
 
-for (let index = 0; index < 1; index++) {
-    runScript("./C/runScripts.js", {giveInfo: {scriptOrWebsite: "script"}})
-}
+// for (let index = 0; index < 1; index++) {
+// }
+
+runScript("./C/systemApps/taskBar.js", {giveInfo: {scriptOrWebsite: "script"}})
+runScript("./C/systemApps/runScripts.js", {giveInfo: {scriptOrWebsite: "script"}})
+
 // addEventListener("keydown", (e)=>{
 //     win.console.log(script)
 // })

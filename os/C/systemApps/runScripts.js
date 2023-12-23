@@ -1,7 +1,5 @@
 export default async function({script, box, console}) {
-    
     // console.log(script)
-    
     box.width(innerWidth-10)
     box.height(innerHeight-10)
     box.x(0)
@@ -13,7 +11,7 @@ export default async function({script, box, console}) {
     // })
     if(script.giveInfo.scriptOrWebsite == "script") {
         // rem.src = "./C/runScripts.html"
-        let rem = await (await fetch("./C/runScripts.html")).text()
+        let rem = await (await fetch("./C/systemApps/assets/runScripts.html")).text()
         const parser = new DOMParser();
         rem = parser.parseFromString(rem, 'text/html').querySelector("html")
         // console.log(rem)
@@ -26,7 +24,7 @@ export default async function({script, box, console}) {
             }})
         })    
         box.contentBox.querySelector(".websiteButton").addEventListener("click", (e)=>{
-            script.runScript("./C/runScripts.js", {giveInfo: {
+            script.runScript("./C/systemApps/runScripts.js", {giveInfo: {
                 scriptOrWebsite: "website",
                 websiteURL: box.contentBox.querySelector(".input").value
             }})
