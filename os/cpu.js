@@ -1,6 +1,13 @@
 const testDiv = document.createElement("div")
 testDiv.style.height = "100%"
 document.body.append(testDiv)
+function onSpace(_func){
+    addEventListener("keydown", (e)=>{
+        if(e.key == " "){
+            _func(e)
+        }
+    })
+}
 const _realConsole = console
 const win = {}
 
@@ -23,7 +30,6 @@ const localConsole = {
     error: win.createConsole.error(`cpu`),
 }
 win.console = { ...console, ...localConsole }
-
 let url = new URL(document.location.href)
 let path = url.pathname.split("/")
 if(path[path.length-1] == "index.html") {
@@ -32,47 +38,81 @@ if(path[path.length-1] == "index.html") {
 }
 // win.console.log(path)
 // testDiv.style.bottom
+let isType = {
+    script: [
+        "script",
+        "js",
+        "javascript",
+    ],
+    website: [
+        "website",
+        "html",
+    ]
+}
+onSpace(()=>{
+    win.console.log(...script)
+})
 let rem;
 let scriptCounter = 0
 let boxCounter = 0
 let content = {
     element: document.querySelector("main#content.content"),
     display: {
+        getNumber(e, _orientation = "height"){
+            if(e instanceof HTMLElement){
+                return e.getBoundingClientRect()[_orientation]
+            }
+            if(typeof e == "number"){
+                return e
+            }
+            win.console.error(e, "is wrong")
+        },
         height(){
             let rem = 0;
-            function addNumber(e){
-                if(e instanceof HTMLElement){
-                    return rem += e.getBoundingClientRect().height
-                }
-                if(typeof e == "number"){
-                    return rem += e
-                }
-                win.console.error(e, "is wrong")
-            }
             this.top.forEach((e)=>{
-                addNumber(e)
+                rem += this.getNumber(e)
             })
             this.bottom.forEach((e)=>{
-                addNumber(e)
+                rem += this.getNumber(e)
             })
             return rem
         },
         width(){
             let rem = 0;
-            function addNumber(e){
-                if(e instanceof HTMLElement){
-                    return rem += e.getBoundingClientRect().height
-                }
-                if(typeof e == "number"){
-                    return rem += e
-                }
-                win.console.error(e, "is wrong")
-            }
             this.left.forEach((e)=>{
-                addNumber(e)
+                rem += this.getNumber(e, "width")
             })
             this.right.forEach((e)=>{
-                addNumber(e)
+                console.log(e)
+                rem += this.getNumber(e, "width")
+            })
+            return rem
+        },
+        topInterrupted(){
+            let rem = 0;
+            this.top.forEach((e)=>{
+                rem += this.getNumber(e)
+            })
+            return rem
+        },
+        bottomInterrupted(){
+            let rem = 0;
+            this.bottom.forEach((e)=>{
+                rem += this.getNumber(e)
+            })
+            return rem
+        },
+        leftInterrupted(){
+            let rem = 0;
+            this.left.forEach((e)=>{
+                rem += this.getNumber(e)
+            })
+            return rem
+        },
+        rightInterrupted(){
+            let rem = 0;
+            this.right.forEach((e)=>{
+                rem += this.getNumber(e)
             })
             return rem
         },
@@ -95,6 +135,9 @@ let content = {
 
 let script = []
 
+async function getIpAddress(){
+    return (await(await fetch("https://api64.ipify.org/?format=json")).json()).ip
+}
 function foreverLoop(_stop, _func) {
     const _loop = (e)=>{
         // console.log(!script[_stop].script.stop, _stop)
@@ -231,12 +274,20 @@ function newWindow(_append = false, {_scriptCounter} = {}) {
             }
             else {
                 rem.element.style.display = "none"
-            }    
+            }
+        },
+        max(bool = true){
+            this.width(innerWidth-10)
+            this.height(innerHeight-10)
+            this.x(0)
+            this.y(0) 
         },
         close(_scriptCounter){
             if(!(typeof _scriptCounter == "number")){win.console.error("_scriptCounter needs a number. You gave: ", _scriptCounter);return}
+            if(isType.script.includes(script[_scriptCounter].script.type)){
+                script[_scriptCounter].script.stop = true
+            }
             // console.log(script, _scriptCounter)
-            script[_scriptCounter].script.stop = true
             // document.createElement("div").
             script[_scriptCounter].box.element.remove()
             script[_scriptCounter] = {
@@ -338,6 +389,7 @@ function newWindow(_append = false, {_scriptCounter} = {}) {
 
     if(typeof _scriptCounter == "number"){
         rem.titleBar.buttons.hide.element.addEventListener("click", ()=>{rem.hide()})
+        rem.titleBar.buttons.max_min.element.addEventListener("click", ()=>{rem.max()})
         rem.titleBar.buttons.close.element.addEventListener("click", ()=>{rem.close(_scriptCounter)})
         addEventListener("keydown", (e)=>{if (e.key == " "){rem.show()}})
     }
@@ -428,6 +480,12 @@ function newWindow(_append = false, {_scriptCounter} = {}) {
             rem.element.releasePointerCapture(a.pointerId)
         })
     })
+    rem.width(innerWidth-10)
+    rem.height(innerHeight-10)
+    rem.x(0)
+    rem.y(0)
+    rem.minHeight = 150
+    rem.minWidth = 300
 
     boxCounter++
     return rem
@@ -444,18 +502,14 @@ function urlHandler(_url) {
 // let hi = "./hello/hi.js"
 // [].toString()
 // "".replace(",", "/")
-async function runScript(scriptURL, {giveInfo = {}} = {}) {
-    const [module] = await Promise.all([
-        import(scriptURL)
-    ]);
-
+async function runScript(scriptURL, {giveInfo = {}, type = "script", iframe = true} = {}) {
     let _path = scriptURL.split("/").slice(0, scriptURL.split("/").length - 1)
     _path.shift()
-
+    
     let scriptInfo = {
-        settings: module.settings,
+        settings: undefined,
         info: {
-            script: module,
+            script: undefined,
             scriptCounter,
             scriptURL,
             scriptFolderPath: path.concat(_path),
@@ -469,39 +523,74 @@ async function runScript(scriptURL, {giveInfo = {}} = {}) {
         newWindow,
         foreverLoop: (_func) => foreverLoop(scriptInfo.info.scriptCounter, _func),
         stop: false,
+        type,
+        _realConsole,
+        getIpAddress,
     }
-
-    // move to newBox MW
-    // document.createElement("div").addEventListener("click")
-
-    // windowsConsole.logAuthor = `${module.settings.type}: ${scriptCounter}, ${scriptInfo.info.scriptId}`
-    const localConsole = {
-        log: win.createConsole.log(`${module.settings.type}: ${scriptCounter}, ${scriptInfo.info.scriptId}`),
-        error: win.createConsole.error(`${module.settings.type}: ${scriptCounter}, ${scriptInfo.info.scriptId}`),
-    }
-    script[scriptCounter] = {
-        script: scriptInfo,
-        console: { ...console, ...localConsole },
-    }
-    if(module.settings.type == "app") {
-        let rem = newWindow(true, {_scriptCounter: scriptInfo.info.scriptCounter})
-        script[scriptCounter].box = rem
-    }
-    if(module.settings.type == "script") {
-        script[scriptCounter].content = content.element
-    }
-
-    
-    module.default(script[scriptCounter])
-
     scriptCounter++
+
+    if(isType.script.includes(type)){
+        const [module] = await Promise.all([
+            import(scriptURL)
+        ]);
+                
+        scriptInfo.settings = module.settings
+        scriptInfo.info.script = module
+        // console.log(scriptInfo)
+
+        // move to newBox MW
+        // document.createElement("div").addEventListener("click")
+
+        // windowsConsole.logAuthor = `${module.settings.type}: ${scriptCounter}, ${scriptInfo.info.scriptId}`
+        const localConsole = {
+            log: win.createConsole.log(`${module.settings.type}: ${scriptInfo.info.scriptCounter}, ${scriptInfo.info.scriptId}`),
+            error: win.createConsole.error(`${module.settings.type}: ${scriptInfo.info.scriptCounter}, ${scriptInfo.info.scriptId}`),
+        }
+        script[scriptInfo.info.scriptCounter] = {
+            script: scriptInfo,
+            console: { ...console, ...localConsole },
+        }
+        if(module.settings.type == "app") {
+            let rem = newWindow(true, {_scriptCounter: scriptInfo.info.scriptCounter})
+            script[scriptInfo.info.scriptCounter].box = rem
+        }
+        if(module.settings.type == "script") {
+            script[scriptInfo.info.scriptCounter].content = content.element
+        }
+
+
+        module.default(script[scriptInfo.info.scriptCounter])
+    }
+    if(isType.website.includes(type)){
+        let rem = newWindow(true, {_scriptCounter: scriptInfo.info.scriptCounter})
+        if(iframe) {
+            let rem_a = document.createElement("iframe")
+            rem_a.src = scriptURL
+            rem_a.style = "width: 100%; height: 100%; border: 0;"
+            rem.contentBox.append(rem_a)
+        }
+        else {
+            // console.log(scriptURL)
+            rem.contentBox.innerHTML = await(await fetch(scriptURL)).text()
+        }
+        const localConsole = {
+            log: win.createConsole.log(`${type}: ${scriptInfo.info.scriptCounter}, ${scriptInfo.info.scriptId}`),
+            error: win.createConsole.error(`${type}: ${scriptInfo.info.scriptCounter}, ${scriptInfo.info.scriptId}`),
+        }
+        script[scriptInfo.info.scriptCounter] = {
+            script: scriptInfo,
+            console: { ...console, ...localConsole },
+            box: rem,
+        }
+    }
 }
 
 // for (let index = 0; index < 1; index++) {
 // }
 
-runScript("./C/systemApps/taskBar.js", {giveInfo: {scriptOrWebsite: "script"}})
+// runScript("./C/systemApps/taskBar.js", {giveInfo: {scriptOrWebsite: "script"}})
 runScript("./C/systemApps/runScripts.js", {giveInfo: {scriptOrWebsite: "script"}})
+// runScript("https://stio.studio", {type: "html"})
 
 // addEventListener("keydown", (e)=>{
 //     win.console.log(script)

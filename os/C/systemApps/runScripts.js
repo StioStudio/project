@@ -24,10 +24,7 @@ export default async function({script, box, console}) {
             }})
         })    
         box.contentBox.querySelector(".websiteButton").addEventListener("click", (e)=>{
-            script.runScript("./C/systemApps/runScripts.js", {giveInfo: {
-                scriptOrWebsite: "website",
-                websiteURL: box.contentBox.querySelector(".input").value
-            }})
+            script.runScript(box.contentBox.querySelector(".input").value, {type: "html"})
         })    
     }
     else {
