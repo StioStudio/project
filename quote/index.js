@@ -1,3 +1,4 @@
+await lastUpdated({path: "quote/index.hml", repo: "project"})
 let options = {
     "language": "en",
     "themes": "dark"
