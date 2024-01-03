@@ -591,6 +591,7 @@ async function runScript(scriptURL, {giveInfo = {}, type = "script", iframe = tr
 // runScript("./C/systemApps/taskBar.js", {giveInfo: {scriptOrWebsite: "script"}})
 runScript("./C/systemApps/runScripts.js", {giveInfo: {scriptOrWebsite: "script"}})
 // runScript("https://stio.studio", {type: "html"})
+// runScript("./C/apps/concept/index.html", {type: "html"})
 
 // addEventListener("keydown", (e)=>{
 //     win.console.log(script)

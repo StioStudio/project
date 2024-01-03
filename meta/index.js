@@ -1,3 +1,4 @@
+basicSetup()
 await lastUpdated({path: "meta/index.html", repo: "project"})
 const metaDisplay = document.querySelector(".metatags-display")
 updateMeta()

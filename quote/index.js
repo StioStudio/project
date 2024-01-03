@@ -1,3 +1,4 @@
+basicSetup()
 await lastUpdated({path: "quote/index.html", repo: "project"})
 let options = {
     "language": "en",
