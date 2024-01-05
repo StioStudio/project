@@ -79,6 +79,7 @@ main#content.content:not(.box main#content.content), body:not(.box body), html:n
     width: 100%;
 }
 .dragBar {
+    background: linear-gradient(to right,red, orange, yellow, green, blue, purple);
     position: absolute;
     left: 5px;
     width: calc(100% - 10px);
