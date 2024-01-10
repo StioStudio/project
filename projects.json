@@ -8,6 +8,11 @@
         },
         [
             {
+                "_projectHeader": "About You 🫵",
+                "_link": "./about-you",
+                "_projectType": "C"
+            },
+            {
                 "_projectHeader": "OS",
                 "_link": "./os",
                 "_projectType": "C"
