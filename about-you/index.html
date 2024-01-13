@@ -36,6 +36,7 @@
     <script src="/asset/func.js"></script> -->
 
     <script type="module" src="./index.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/UAParser.js/1.0.37/ua-parser.min.js"></script>
 
     <style>
         .output {
@@ -44,6 +45,7 @@
             max-width: 100%;
             padding: 5px;
             padding-inline: 2px;
+            line-break: anywhere;
             line-height: 50px;
         }
         .margin-8px {
@@ -54,7 +56,7 @@
 <body onload="document.querySelector('html').classList.add('loaded');">
     <div class="header">
         <div class="header-heading">
-            <h1><tra>About You</tra></h1>
+            <h1>About You</h1>
             <div class="last-updated bigBox projectBox box-shadow">loading...</div>
         </div>
     </div>
@@ -64,7 +66,21 @@
         </div>
     </noscript>
     <div class="content">
+        <div class="bigBox box-shadow">
+            <div class="font-size-20px">Back to <a href="https://project.stio.studio">Project Page</a></div>
+            Hey, have you ever wondered about how much of your information is visible by websites, just by clicking on them?
+            <br>
+            Hopefully this will make you realize how much. (This is not even close to everything, just so you know it)
+            <br>
+            <div class="font-size-20px">Don't worry, I don't log (save) the data.</div>
+        </div>
         <div class="bigBox box-shadow display">
+        </div>
+        <div class="bigBox box-shadow footer">
+            <h2 class="noMargin">Credits</h2>
+            For IP addresses: <a href="https://ipify.org/">ipify.org</a>
+            <br><div class="margin-8px"></div>
+            For Browser, CPU, Device, Engine and OS: <a href="https://cdnjs.com/libraries/UAParser.js">UAParser.js</a>
         </div>
     </div>
 </body>
