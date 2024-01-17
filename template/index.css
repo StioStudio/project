@@ -1,0 +1,17 @@
+/* Import the variables */
+@import url(./var.css);
+
+/* Create a new font */
+@font-face {
+    font-family: "Recursive";
+    src: local("Recursive"), url("https://asset.stio.studio/font.ttf");
+}
+
+* {
+    font-family: var(--font);
+    color: var(--text/*color*/);
+}
+body {
+    background: var(--background/*color*/);
+    margin: 0 /*takes away the margin*/;
+}

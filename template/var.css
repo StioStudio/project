@@ -1,0 +1,28 @@
+/* vars = variables */
+
+:root {
+    --all-vars: ;
+}
+@media (prefers-color-scheme: dark) {
+    :root {
+        --color-vars: dark;
+    }
+}
+@media (prefers-color-scheme: light) {
+    :root {
+        --color-vars: light;
+    }
+}
+@media screen and (max-width: 800px) {
+    :root {
+        --x-position-and-width-vars: small;
+    }
+}
+
+/* Medium is undefined in this case */
+
+@media screen and (min-width: 800px) {
+    :root {
+        --x-position-and-width-vars: large;
+    }
+}
