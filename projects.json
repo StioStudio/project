@@ -8,6 +8,11 @@
         },
         [
             {
+                "_projectHeader": "Prime Numbers<br>🔂🔢",
+                "_link": "./prime",
+                "_projectType": "C"
+            },
+            {
                 "_projectHeader": "About You 🫵",
                 "_link": "./about-you",
                 "_projectType": "C"
