@@ -34,6 +34,21 @@ const update = async () => {
 update()
 
 const time = Date.now()
-addEventListener("keydown", ()=>{
+
+const log = document.querySelector(".log")
+log.addEventListener("click", () => {
     console.log(primeNum, Date.now() - time)
+})
+
+const download = document.querySelector(".download")
+download.addEventListener("click", async () => {
+    const blob = new Blob([primeNum.join('\n')], { type: "text/plain;charset=utf-8" })
+    const url = URL.createObjectURL(blob)
+    const a = document.createElement('a')
+    a.href = url
+    a.download = 'prime.txt'
+    document.body.appendChild(a)
+    a.click()
+    document.body.removeChild(a)
+    URL.revokeObjectURL(url)
 })
