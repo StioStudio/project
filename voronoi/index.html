@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WebGPU Points Simulation</title>
+</head>
+
+<body>
+    <style>
+        canvas {
+            height: 100vh;
+            width: 100vw;
+            margin: 0;
+        }
+
+        body,
+        html {
+            height: 100vh;
+            padding: 0;
+            margin: 0;
+            overflow: hidden;
+        }
+        .box {
+            position: absolute;
+            top: 5;
+            left: 5;
+            background-color: #ffffffc0;
+            border-radius: 0 0 10px 0;
+            text-align: center;
+            padding: 10px;
+        }
+    </style>
+    <div class="box">
+        Total Points
+        <br>
+        <input type="number" min="1" value="50" class="total-points-number">
+        <br>
+        <input type="range" min="1" max="1000" value="50" class="total-points-slider">
+        <br><br>
+        <input type="submit" value="Run Simulation" class="submit">
+    </div>
+    <canvas id="canvas" height="1000" width="1000"></canvas>
+    <script type="module" src="main.js"></script>
+</body>
+
+</html>

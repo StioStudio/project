@@ -8,6 +8,13 @@
         },
         [
             {
+                "_projectHeader": "Voronoi",
+                "_link": "./voronoi",
+                "_projectType": "A",
+                "_projectContentImageLink": "./voronoi/voronoi.png",
+                "_projectContentImageLinkAlt": "voronoi"
+            },
+            {
                 "_projectHeader": "Prime Numbers<br>🔂🔢",
                 "_link": "./prime",
                 "_projectType": "C"
