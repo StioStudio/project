@@ -221,7 +221,7 @@ export function secondTokenizer(tokens) {
                     tokens[i].token_type = "Comment"
                     result.push(tokens[i])
                     i++
-                    while (tokens[i].token_type != "Newline") {
+                    while (!(tokens[i] == undefined || tokens[i].token_type == "Newline")) {
                         tokens[i].token_type = "Comment"
                         result.push(tokens[i])
                         i++
