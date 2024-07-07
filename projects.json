@@ -8,6 +8,13 @@
         },
         [
             {
+                "_projectHeader": "Blob of Life",
+                "_link": "./blob_of_life",
+                "_projectType": "A",
+                "_projectContentImageLink": "./blob_of_life/image.png",
+                "_projectContentImageLinkAlt": "simulation of blob of life"
+            },
+            {
                 "_projectHeader": "Syntax",
                 "_link": "./syntax",
                 "_projectType": "C"
