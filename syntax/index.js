@@ -68,14 +68,14 @@ function tokenColor(token) {
         case "Star":
         case "Slash":
         case "Equal":
-            return "#0000ffb0"
+            return "#60a0f0"
         case "LeftParen":
         case "RightParen":
         case "LeftCurBra":
         case "RightCurBra":
         case "Comma":
         case "Semicolon":
-            return "#800080a0"
+            return "#a000a0a0"
         case "Comment":
             return "#d3d3d3a0"
         default:
