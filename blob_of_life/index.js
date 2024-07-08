@@ -1,8 +1,8 @@
 let canvas = document.querySelector("canvas");
 let ctx = canvas.getContext("2d");
 
-canvas.width = window.innerWidth * 2
-canvas.height = window.innerHeight * 2
+canvas.width = window.innerWidth
+canvas.height = window.innerHeight
 
 
 function drawBlob(x, y, radius, color) {
@@ -36,21 +36,17 @@ let blobsTypes = [
 ]
 
 function createBlobTypes(amount) {
-    let types = new Array(amount).fill(0).map((v, index, ary) => {
-        let type = createBlobType()
-        type.index = index
-        type.force = blobForce(amount)
-        return type
+    return new Array(amount).fill(0).map((v, index, ary) => {
+        return createBlobType({ index: index, force: blobForce(amount), size: 5 })
     })
-
-    return types
 }
 
-function createBlobType(
+function createBlobType({
     index = 0,
     color = `rgb(${Math.round(Math.random() * 255)}, ${Math.round(Math.random() * 255)}, ${Math.round(Math.random() * 255)})`,
-    force = []
-) {
+    force = [],
+    size = 5,
+}) {
     return {
         index,
         color,
@@ -61,6 +57,7 @@ function createBlobType(
             return obj.force[this.index]
         },
         force,
+        size,
     }
 }
 
@@ -94,97 +91,67 @@ function createBlob() {
     }
 }
 
-blobsTypes = createBlobTypes(7)
-// blobsTypes = [
-//     createBlobType(0, red, [
-//         0,
-//         1
-//     ]),
-//     createBlobType(1, blue, [
-//         -1,
-//         0
-//     ])
-// ]
 
-blobs = createBlobs(1000)
+blobsTypes = createBlobTypes(8)
+blobs = createBlobs(600)
 
-blobs.forEach((blob, index) => {
-    blob.x += blob.vel_x
-    blob.y += blob.vel_y
-    drawBlob(blob.x, blob.y, 5, blobsTypes[blob.type].color)
-})
+let simulationDistance = 100
 
 function update() {
     ctx.clearRect(0, 0, canvas.width, canvas.height)
     blobs.forEach((blob, index) => {
         blobs.forEach((otherBlob, otherIndex) => {
-            if (blob == otherBlob) return
-            // let distance = Math.sqrt((blob.x - otherBlob.x) ** 2 + (blob.y - otherBlob.y) ** 2)
-            // if (distance < 100 /*&& distance > 5*/) {
-            //     let x = otherBlob.x - blob.x
-            //     let y = otherBlob.y - blob.y
-            //     let force = blobsTypes[blob.type].meAttracts(blobsTypes[otherBlob.type]) / distance
-            //     // console.log(force)
-            //     let vector = Math.atan(x / y)
-            //     vector *= 180 / Math.PI
-            //     if (y < 0) vector += 180
-            //     blob.vel_x += force * Math.cos(vector)
-            //     blob.vel_y += force * Math.sin(vector)
-            // }
-            // let distance = Math.sqrt((blob.x - otherBlob.x) ** 2 + (blob.y - otherBlob.y) ** 2)
-            // if (distance < 100) {
-            //     let x = otherBlob.x - blob.x
-            //     let y = otherBlob.y - blob.y
-            //     // blobsTypes[blob.type].meAttracts(blobsTypes[otherBlob.type]) gives the force between the 2 blobs. (-1 to 1)
-            //     let force = blobsTypes[blob.type].meAttracts(blobsTypes[otherBlob.type]) / distance
-            //     let vector = Math.atan2(x / y)
-            //     if (y < 0) vector += Math.PI
-            //     blob.vel_x += force * Math.cos(vector)
-            //     blob.vel_y += force * Math.sin(vector)
-            // }
+            function simBlob(xOffset, yOffset) {
+                if (blob === otherBlob) return; // Ensure we are not comparing the blob to itself
 
-            let distance = Math.sqrt((blob.x - otherBlob.x) ** 2 + (blob.y - otherBlob.y) ** 2);
+                // Calculate the distance including offsets
+                let distance = Math.sqrt((blob.x - (otherBlob.x + xOffset)) ** 2 + (blob.y - (otherBlob.y + yOffset)) ** 2);
 
-            if (distance !== 0) {
-                if (distance < 10) {
-                    let x = otherBlob.x - blob.x;
-                    let y = otherBlob.y - blob.y;
-                    
-                    // blobsTypes[blob.type].meAttracts(blobsTypes[otherBlob.type]) gives the force between the 2 blobs. (-1 to 1)
-                    let force = -1 / distance;
-                    
-                    let vector = Math.atan2(y, x); // Correct way to calculate the angle
-                    
-                    // Apply force in the direction of the vector
-                    blob.vel_x += force * Math.cos(vector);
-                    blob.vel_y += force * Math.sin(vector);
-                }
-                else if (distance < 100) {
-                    let x = otherBlob.x - blob.x;
-                    let y = otherBlob.y - blob.y;
-                    
-                    // blobsTypes[blob.type].meAttracts(blobsTypes[otherBlob.type]) gives the force between the 2 blobs. (-1 to 1)
-                    let force = blobsTypes[blob.type].meAttracts(blobsTypes[otherBlob.type]) / distance;
-                    
-                    let vector = Math.atan2(y, x); // Correct way to calculate the angle
-                    
-                    // Apply force in the direction of the vector
-                    blob.vel_x += force * Math.cos(vector);
-                    blob.vel_y += force * Math.sin(vector);
+                if (distance !== 0) {
+                    // Check for repulsion or attraction forces within interaction distance
+                    if (distance < blobsTypes[blob.type].size * 2) {
+                        let x = (otherBlob.x + xOffset) - blob.x;
+                        let y = (otherBlob.y + yOffset) - blob.y;
+
+                        let force = -2 / distance; // Repulsion force
+                        let vector = Math.atan2(y, x);
+
+                        // Apply repulsion force
+                        blob.vel_x += force * Math.cos(vector);
+                        blob.vel_y += force * Math.sin(vector);
+                    }
+
+                    // Apply attraction or other forces within simulation distance
+                    if (distance < simulationDistance) {
+                        let x = (otherBlob.x + xOffset) - blob.x;
+                        let y = (otherBlob.y + yOffset) - blob.y;
+
+                        let force = blobsTypes[blob.type].meAttracts(blobsTypes[otherBlob.type]) / distance;
+                        let vector = Math.atan2(y, x);
+
+                        // Apply attraction force
+                        blob.vel_x += force * Math.cos(vector);
+                        blob.vel_y += force * Math.sin(vector);
+                    }
                 }
             }
 
-            // else if (distance < 5) {
-            //     let x = otherBlob.x - blob.x
-            //     let y = otherBlob.y - blob.y
-            //     let force = -0.1 / distance
-            //     let vector = Math.atan(x / y)
-            //     vector *= 180 / Math.PI
-            //     if (x < 0) vector += 180
-            //     // console.log(vector, blob.x, blob.y)
-            //     blob.vel_x += force * Math.cos(vector)
-            //     blob.vel_y += force * Math.sin(vector)
-            // }
+            // Normal force application
+            simBlob(0, 0);
+
+            // Overflow force application
+            if (blob.x > canvas.width / 2) {
+                simBlob(canvas.width, 0);  // Wrap around to the right
+            } else {
+                simBlob(-canvas.width, 0); // Wrap around to the left
+            }
+
+            if (blob.y > canvas.height / 2) {
+                simBlob(0, canvas.height);  // Wrap around to the bottom
+            } else {
+                simBlob(0, -canvas.height); // Wrap around to the top
+            }
+
         })
 
         blob.vel_x *= 0.95
@@ -193,11 +160,23 @@ function update() {
     blobs.forEach((blob, index) => {
         blob.x += blob.vel_x
         blob.y += blob.vel_y
-        drawBlob(blob.x, blob.y, 5, blobsTypes[blob.type].color)
+
+        if (blob.x > canvas.width) {
+            blob.x -= canvas.width
+        }
+        if (blob.x < 0) {
+            blob.x += canvas.width
+        }
+        if (blob.y > canvas.height) {
+            blob.y -= canvas.height
+        }
+        if (blob.y < 0) {
+            blob.y += canvas.height
+        }
+
+        drawBlob(blob.x, blob.y, blobsTypes[blob.type].size, blobsTypes[blob.type].color)
     })
     requestAnimationFrame(update)
 }
 
-requestAnimationFrame(update)
-setTimeout(() => {
-}, 1000)
+update()
