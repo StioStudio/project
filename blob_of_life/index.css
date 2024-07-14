@@ -5,3 +5,29 @@ canvas {
     top: 0;
     left: 0;
 }
+.box {
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: #ffffffa0;
+    border-radius: 0 0 10px 0;
+    text-align: center;
+    padding: 10px;
+    z-index: 1;
+    display: none;
+}
+.show {
+    display: block;
+}
+.hide {
+    position: absolute;
+    top: 0;
+    left: 0;
+    text-align: center;
+    background-color: #000000d0;
+    color: #ffffff;
+    padding: 4px;
+    border-bottom-right-radius: 10px;
+    z-index: 1;
+    cursor: pointer;
+}
