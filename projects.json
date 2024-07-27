@@ -8,6 +8,13 @@
         },
         [
             {
+                "_projectHeader": "Flow Puzzle",
+                "_link": "./flow_puzzle",
+                "_projectType": "A",
+                "_projectContentImageLink": "./flow_puzzle/image.png",
+                "_projectContentImageLinkAlt": "Algorithm for solving of flow puzzle"
+            },
+            {
                 "_projectHeader": "Blob of Life",
                 "_link": "./blob_of_life",
                 "_projectType": "A",

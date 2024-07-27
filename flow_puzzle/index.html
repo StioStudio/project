@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flow Puzzle</title>
+    <link rel="stylesheet" href="./style.css">
+</head>
+
+<body>
+    <script type="module" src="./script.js"></script>
+    <div class="box show">
+        Table Height
+        <br>
+        <input type="number" min="1" value="4" class="table-height-number">
+        <br>
+        <input type="range" min="1" max="20" value="4" class="table-height-slider">
+        <br><br>
+        Table Width
+        <br>
+        <input type="number" min="1" value="4" class="table-width-number">
+        <br>
+        <input type="range" min="1" max="20" value="4" class="table-width-slider">
+        <br><br>
+        Color
+        <select class="color-options" name="">
+        </select><div class="color-show-box"></div>
+        <br>
+        <input type="text" class="new-color-input">
+        <br>
+        <input type="submit" value="New Color" class="new-color-submit">
+        <br><br>
+        <button class="clear-lines">Clear Lines</button>
+        <br><br>
+        <button class="clear-blobs">Clear Blobs</button>
+        <br><br>
+        <button class="solve">Solve</button>
+        <br>
+        <div class="is-solved"></div>
+        <br><br>
+    </div>
+    <div class="hide">
+        HIDE
+    </div>
+    <canvas></canvas>
+</body>
+
+</html>

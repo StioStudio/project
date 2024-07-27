@@ -1,0 +1,54 @@
+canvas {
+    max-height: 100vh;
+    max-width: 100vw;
+    /* aspect-ratio: 1 / 1; */
+    display: block;
+}
+
+body, html {
+    height: 100vh;
+    width: 100vw;
+}
+
+body {
+    margin: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+}
+
+.box {
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: #ffffffa0;
+    border-radius: 0 0 10px 0;
+    text-align: center;
+    padding: 10px;
+    z-index: 1;
+    display: none;
+}
+.show {
+    display: block;
+}
+.hide {
+    position: absolute;
+    top: 0;
+    left: 0;
+    text-align: center;
+    background-color: #000000d0;
+    color: #ffffff;
+    padding: 4px;
+    border-bottom-right-radius: 10px;
+    z-index: 1;
+    cursor: pointer;
+}
+.color-show-box {
+    width: 15px;
+    height: 15px;
+    border: 1px solid black;
+    display: inline-block;
+    margin: 0 5px;
+    border-radius: 50%;
+}
