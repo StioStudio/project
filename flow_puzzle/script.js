@@ -52,7 +52,7 @@ clearLines.addEventListener("click", () => {
 })
 clearBlobs.addEventListener("click", () => {
     table = []
-    updateTable({ _tableWidth: tableWidthNumber.value, _tableHeight: tableHeightNumber.value })
+    updateTable({ _tableWidth: Number(tableWidthNumber.value), _tableHeight: Number(tableHeightNumber.value) })
 })
 
 let tableWidth = 0
@@ -315,14 +315,14 @@ const algorithm = () => {
 
     lines = [];
     if (solvePuzzle(grid, colorPositions, 0, lines)) {
-        console.log('Solution found:', grid);
+        // console.log('Solution found:', grid);
         isSolved.innerHTML = "Solution found"
-        console.log('Lines:', lines);
+        // console.log('Lines:', lines);
         // Update your visualization with the lines array
         drawLines(lines);
     } else {
         isSolved.innerHTML = "No solution found"
-        console.log('');
+        // console.log('');
     }
 };
 
