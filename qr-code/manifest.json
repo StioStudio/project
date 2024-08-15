@@ -1,7 +1,7 @@
 {
-    "name": "Your App Name",
-    "short_name": "App",
-    "description": "A brief description of your app",
+    "name": "QR Code Scanner",
+    "short_name": "qr-code",
+    "description": "Easily scan QR codes with camera or files!",
     "start_url": "/",
     "display": "standalone",
     "background_color": "#ffffff",
