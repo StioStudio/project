@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QR Code Scanner</title>
+    <meta property='og:title' content='QR Code Scanner' />
+    <meta property='og:description' content="Website for Scanning QR Codes. By file or live video from camera." />
+
+    <meta name="language" content="US">
+
+    <meta name="og:type" content="website" />
+
+    <meta name="owner" content="STIO">
+    <meta name="author" content="stio info@stio.studio">
+    <meta name="reply-to" content="hello@stio.studio">
+    <meta name="og:email" content="hello@stio.studio" />
+    <meta name="og:country-name" content="Norway" />
+
+    <link rel="icon" href="https://project.stio.studio/QR-CODE/image.png" type="image/x-icon" sizes="any" />
+    <link rel="shortcut icon" href="https://project.stio.studio/QR-CODE/image.png" type="image/x-icon" sizes="any" />
+
+    <meta property='og:image' content='https://project.stio.studio/QR-CODE/image.png' />
+    <meta property='og:image:secure_url' content='https://project.stio.studio/QR-CODE/image.png' />
+    <meta property='og:image:type' content='image/png' />
+    <meta property='og:image:width' content='300px' />
+    <meta property='og:image:height' content='300px' />
+    <meta property='og:image:alt' content="QR code icon" />
+
+    <meta name="keywords" content="stio stio_studio stio.studio stiostudio website QR qrcode QR-code" />
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f0f0f0;
+        }
+
+        h1 {
+            text-align: center;
+            color: #007bff;
+        }
+
+        .tabs {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .tab {
+            padding: 10px 20px;
+            border: 1px solid #ccc;
+            border-bottom: none;
+            cursor: pointer;
+            background-color: #fff;
+            margin: 0 5px;
+        }
+
+        .tab.active {
+            border-top: 2px solid #007bff;
+            border-left: 1px solid #ccc;
+            border-right: 1px solid #ccc;
+        }
+
+        .tab-content {
+            display: none;
+            padding: 20px;
+            background-color: #fff;
+            border: 1px solid #ccc;
+            text-align: center;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .preview {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+            background-color: #f9f9f9;
+            border: 1px solid #ccc;
+            padding: 10px;
+            position: relative;
+            /* Add this */
+        }
+
+        .preview img,
+        .preview video {
+            max-width: 100%;
+            max-height: 400px;
+        }
+
+        .preview .overlay {
+            /* Add this */
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .output {
+            margin-top: 20px;
+            text-align: center;
+            font-size: 18px;
+            color: #333;
+            line-break: normal;
+        }
+
+        #live-result div,
+        #file-result div {
+            width: calc(100% - 20px);
+            display: inline-block;
+            padding: 10px;
+            background-color: #007bff;
+            color: #fff;
+            border-radius: 5px;
+            margin: 5px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>QR Code Scanner</h1>
+    <div class="tabs">
+        <div class="tab active" onclick="switchTab(event, 'live')">Live</div>
+        <div class="tab" onclick="switchTab(event, 'file')">File</div>
+    </div>
+
+    <div class="tab-content active" id="live-tab">
+        <div class="preview">
+            <video id="video" width="400" height="300" autoplay></video>
+            <div class="overlay">
+                Play <br>
+                (needs camera)
+            </div>
+        </div>
+        <p id="live-result">No QR code detected.</p>
+    </div>
+
+    <div class="tab-content" id="file-tab">
+        <input type="file" id="fileInput" accept="image/*, video/*" onchange="handleFileChange(event)">
+        <div class="preview" id="filePreview"></div>
+        <p id="file-result">No QR code detected.</p>
+    </div>
+
+    <script src="index.js"></script>
+</body>
+
+</html>
