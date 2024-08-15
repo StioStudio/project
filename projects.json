@@ -8,6 +8,13 @@
         },
         [
             {
+                "_projectHeader": "QR Code Scanner",
+                "_link": "./qr-code",
+                "_projectType": "A",
+                "_projectContentImageLink": "./qr-code/image.png",
+                "_projectContentImageLinkAlt": "QR code scanner icon"
+            },
+            {
                 "_projectHeader": "Flow Puzzle",
                 "_link": "./flow_puzzle",
                 "_projectType": "A",
