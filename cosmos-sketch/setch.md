@@ -30,3 +30,7 @@ Side Rectangle: random color, random alfa, fill ( // description
     change the position of the rectangle to be somewhere on the line for that position
 )
 ```
+
+
+await 5ms before next element is added
+streamCapture() it and make a mp4

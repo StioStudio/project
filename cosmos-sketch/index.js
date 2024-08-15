@@ -2,6 +2,12 @@ const colorOptions = document.querySelector(".color-options")
 const submit = document.querySelector(".submit")
 const showHide = document.querySelector(".hide")
 const box = document.querySelector(".box")
+const msBetweenObjects = document.querySelector(".msBetweenObjects")
+const submitVideo = document.querySelector(".submitVideo")
+
+submitVideo.addEventListener("click", () => {
+    runSimulation(true)
+})
 
 showHide.addEventListener("click", () => {
     box.classList.toggle("show")
@@ -23,11 +29,40 @@ addColorOption("brown-green")
 addColorOption("green")
 addColorOption("red-yellow")
 
-async function runSimulation() {
+async function runSimulation(shouldVideo) {
     const canvas = document.querySelector("canvas");
     const ctx = canvas.getContext("2d");
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
+
+    let mediaRecorder;
+    let video;
+    let chunks;
+    if (shouldVideo) {
+        video = canvas.captureStream(60);
+        mediaRecorder = new MediaRecorder(video);
+        chunks = [];
+        mediaRecorder.ondataavailable = (event) => {
+            if (event.data.size > 0) {
+                chunks.push(event.data);
+            }
+        };
+        mediaRecorder.onstop = () => {
+            const blob = new Blob(chunks, { type: "video/mp4" });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement("a");
+            document.body.appendChild(a);
+            a.style.display = "none";
+            a.href = url;
+            a.download = "cosmos-sketch.mp4";
+            a.click();
+            setTimeout(() => {
+                URL.revokeObjectURL(url);
+                document.body.removeChild(a);
+            }, 100);
+        };
+        mediaRecorder.start();
+    }
 
     function giveRandomPositionInsideOf(x1, y1, x2, y2) {
         return {
@@ -46,6 +81,11 @@ async function runSimulation() {
 
     function beginPath() {
         ctx.beginPath();
+    }
+
+    function wait(ms) {
+        if (ms === 0) return Promise.resolve();
+        return new Promise(resolve => setTimeout(resolve, ms));
     }
 
     function stroke(style) {
@@ -79,9 +119,9 @@ async function runSimulation() {
         ctx.arc(x, y, 1, 0, 2 * Math.PI);
     }
 
-    function loop(times, callback) {
+    async function loop(times, callback) {
         for (let i = 0; i < times; i++) {
-            callback(i);
+            await callback(i);
         }
     }
 
@@ -118,7 +158,8 @@ async function runSimulation() {
     rect(0, 0, canvas.width, canvas.height);
     fill(gradient);
 
-    loop(7, i => {
+    await loop(7, async i => {
+        await wait(Number(msBetweenObjects.value))
         const pos = giveRandomPositionInsideOf(0, 0, canvas.width, canvas.height);
         beginPath();
         circle(pos.x, pos.y, random(200, 400));
@@ -128,7 +169,8 @@ async function runSimulation() {
         }));
     });
 
-    loop(15, i => {
+    await loop(15, async i => {
+        await wait(Number(msBetweenObjects.value))
         const pos = giveRandomPositionInsideOf(0, 0, canvas.width, canvas.height);
         beginPath();
         circle(pos.x, pos.y, 40);
@@ -136,7 +178,8 @@ async function runSimulation() {
         stroke(randomColor(random(0, 1)));
     });
 
-    loop(50, i => {
+    await loop(50, async i => {
+        await wait(Number(msBetweenObjects.value))
         const pos = giveRandomPositionInsideOf(20, 20, canvas.width - 20, canvas.height / 2);
         beginPath();
         point(pos.x, pos.y);
@@ -151,7 +194,7 @@ async function runSimulation() {
     });
 
 
-    loop(10, i => {
+    await loop(10, async i => {
         let randomPosition_a = giveRandomPositionInsideOf(0, 0, canvas.width, canvas.height);
         const from = {
             x: randomPosition_a.x,
@@ -179,6 +222,7 @@ async function runSimulation() {
 
         fill(COLOR);
         for (let i = 0; i < steps; i++) {
+            await wait(Number(msBetweenObjects.value))
             const p = i / (steps - 1);
             const x = lerp(from.x, to.x, p);
             const y = lerp(from.y, to.y, p);
@@ -190,19 +234,23 @@ async function runSimulation() {
         }
     })
 
-    loop(100, i => {
+    await loop(100, async i => {
+        await wait(Number(msBetweenObjects.value))
         const pos = giveRandomPositionInsideOf(100, 140, 120, canvas.height - 140);
         rectangleCallback(pos.x, pos.y, 20, 50);
     });
-    loop(100, i => {
+    await loop(100, async i => {
+        await wait(Number(msBetweenObjects.value))
         const pos = giveRandomPositionInsideOf(canvas.width - 100, 140, canvas.width - 120, canvas.height - 140);
         rectangleCallback(pos.x, pos.y, 20, 50);
     });
-    loop(100, i => {
+    await loop(100, async i => {
+        await wait(Number(msBetweenObjects.value))
         const pos = giveRandomPositionInsideOf(140, 100, canvas.width - 140, 120);
         rectangleCallback(pos.x, pos.y, 50, 20);
     });
-    loop(100, i => {
+    await loop(100, async i => {
+        await wait(Number(msBetweenObjects.value))
         const pos = giveRandomPositionInsideOf(140, canvas.height - 100, canvas.width - 140, canvas.height - 120);
         rectangleCallback(pos.x, pos.y, 50, 20);
     });
@@ -211,6 +259,11 @@ async function runSimulation() {
         beginPath();
         rect(x, y, w, h);
         fill(randomColor(random(0, 0.2)));
+    }
+
+    if (shouldVideo) {
+        await wait(1000);
+        mediaRecorder.stop();
     }
 }
 
