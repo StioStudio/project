@@ -8,6 +8,13 @@
         },
         [
             {
+                "_projectHeader": "Cosmos Sketch",
+                "_link": "./cosmos-sketch",
+                "_projectType": "C",
+                "_projectContentImageLink": "./cosmos-sketch/image.png",
+                "_projectContentImageLinkAlt": "cosmos sketch generation"
+            },
+            {
                 "_projectHeader": "QR Code Scanner",
                 "_link": "./qr-code",
                 "_projectType": "A",

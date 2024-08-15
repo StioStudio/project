@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cosmos Sketch</title>
+    <meta property='og:title' content='Cosmos Sketch' />
+    <meta property='og:description' content="Generate cosmos sketches that is inspired form Loïc Rico" />
+
+    <meta name="language" content="US">
+
+    <meta name="og:type" content="website" />
+
+    <meta name="owner" content="STIO">
+    <meta name="author" content="stio info@stio.studio">
+    <meta name="reply-to" content="hello@stio.studio">
+    <meta name="og:email" content="hello@stio.studio" />
+    <meta name="og:country-name" content="Norway" />
+
+    <link rel="icon" href="https://project.stio.studio/cosmos-sketch/image.png" type="image/x-icon" sizes="any" />
+    <link rel="shortcut icon" href="https://project.stio.studio/cosmos-sketch/image.png" type="image/x-icon"
+        sizes="any" />
+
+    <meta property='og:image' content='https://project.stio.studio/cosmos-sketch/image.png' />
+    <meta property='og:image:secure_url' content='https://project.stio.studio/cosmos-sketch/image.png' />
+    <meta property='og:image:type' content='image/png' />
+    <meta property='og:image:width' content='400px' />
+    <meta property='og:image:height' content='400px' />
+    <meta property='og:image:alt' content="Generation of cosmos sketch" />
+
+    <meta name="keywords" content="stio stio_studio stio.studio stiostudio website cosmos-sketch generator Loïc Rico" />
+</head>
+
+<body>
+    <style>
+        body,
+        html {
+            margin: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        canvas {
+            display: block;
+            width: 100%;
+            height: 100%;
+        }
+
+        .box {
+            position: absolute;
+            top: 0;
+            left: 0;
+            background-color: #ffffffa0;
+            border-radius: 0 0 10px 0;
+            text-align: center;
+            padding: 10px;
+            z-index: 1;
+            display: none;
+        }
+
+        .show {
+            display: block;
+        }
+
+        .hide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            text-align: center;
+            background-color: #000000d0;
+            color: #ffffff;
+            padding: 4px;
+            border-bottom-right-radius: 10px;
+            z-index: 1;
+            cursor: pointer;
+        }
+    </style>
+    <script type="module" src="index.js"></script>
+    <div class="box show">
+        <br>
+        Inspired by: <a href="https://github.com/ricoloic/processing-cosmos-sketch/">Loïc Rico</a>
+        <br><br>
+        Color Pallet
+        <br>
+        <select class="color-options" name="">
+        </select>
+        <br><br>
+        <input type="submit" value="Generate" class="submit">
+    </div>
+    <div class="hide">
+        HIDE
+    </div>
+    <canvas></canvas>
+</body>
+
+</html>
