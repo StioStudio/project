@@ -14,7 +14,9 @@ showHide.addEventListener("click", () => {
     box.classList.value.includes("show") ? showHide.textContent = "HIDE" : showHide.textContent = "SHOW";
 })
 
-submit.addEventListener("click", runSimulation)
+submit.addEventListener("click", () => {
+    runSimulation()
+})
 
 function addColorOption(_name) {
     const option = document.createElement("option")
