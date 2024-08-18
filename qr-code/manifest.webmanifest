@@ -1,0 +1,16 @@
+{
+    "name": "QR Code Scanner",
+    "short_name": "qr-code",
+    "description": "Easily scan QR codes with camera or files!",
+    "start_url": "/qr-code/",
+    "display": "standalone",
+    "background_color": "#ffffff",
+    "theme_color": "#000000",
+    "icons": [
+      {
+        "src": "./image.png",
+        "sizes": "255x255",
+        "type": "image/png"
+      }
+    ]
+  }
